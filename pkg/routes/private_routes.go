@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gofiber/fiber/v2"
 	"kevinzie/go-commerce/app/controllers"
+	"kevinzie/go-commerce/pkg/middleware"
 )
 
 // PrivateRoutes func for describe group of private routes.
@@ -21,7 +22,7 @@ func PrivateRoutes(a *fiber.App) {
 
 	route := a.Group("/api/v1")
 
-	route.Get("/users", controllers.GetUsers)
+	route.Get("/users", middleware.JWTProtected(), controllers.GetUsers)
 	route.Get("/user/:id", controllers.GetUser)
 	route.Post("/user", controllers.CreateUser)
 	route.Put("/user/:id", controllers.UpdateUser)

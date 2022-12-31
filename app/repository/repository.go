@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -43,7 +44,7 @@ func (r *repository[T]) GetById(id uuid.UUID, ctx context.Context) (*T, error) {
 	return &entity, nil
 }
 
-func (r *repository[T]) Get(params *T, ctx context.Context) *T {
+func (r *repository[T]) Get(params *[]T, ctx context.Context) *T {
 	var entity T
 	r.db.WithContext(ctx).Where(&params).FirstOrInit(&entity)
 	return &entity
@@ -58,6 +59,22 @@ func (r *repository[T]) GetAll(ctx context.Context, c *fiber.Ctx) (interface{}, 
 		return nil, err
 	}
 	return &entities, nil
+}
+
+func (r *repository[T]) GetByEmail(email string, ctx context.Context) (*T, error) {
+	var entity *T
+	err := r.db.WithContext(ctx).Where("email = ?", email).Where("status = ?", "active").Find(&entity).Error
+
+	if err != nil {
+		fmt.Println("error ga didsini", err)
+		return nil, err
+	}
+
+	return entity, nil
+	//if err != nil {
+	//	return nil, err
+	//}
+	//return &entities, nil
 }
 
 func (r *repository[T]) Where(params *T, ctx context.Context) (*[]T, error) {

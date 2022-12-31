@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		return
 	}
-
+	//middleware.Fiber
 	routes.SwaggerRoute(app)
 	routes.PrivateRoutes(app)
 	routes.PublicRoutes(app)

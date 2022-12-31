@@ -8,12 +8,14 @@ import (
 	"kevinzie/go-commerce/app/models"
 	repository "kevinzie/go-commerce/app/repository"
 	"kevinzie/go-commerce/pkg/config"
+	"kevinzie/go-commerce/pkg/security"
 	"kevinzie/go-commerce/pkg/utils"
 	"kevinzie/go-commerce/platform/cache"
 )
 
 func GetUsers(c *fiber.Ctx) models.BaseResponseModel {
 	ctx := context.Background()
+	//now := time.Now().Unix()
 	//var (
 	//	entity models.Users
 	//)
@@ -54,15 +56,18 @@ func GetUserById(c *fiber.Ctx) models.BaseResponseModel {
 
 func CreateUser(c *fiber.Ctx) models.BaseResponseModel {
 	ctx := context.Background()
-	user := &models.Users{}
+	user := models.Users{}
+	//input := models.Users{}
 
 	if err := c.BodyParser(&user); err != nil {
 		return utils.StatusFail("Invalid request")
 	}
 	modelQuery := config.Database
 	user.Uuid = uuid.New()
+	hasPassword, _ := security.HashPassword(user.Password)
+	user.Password = hasPassword
 	repo := repository.NewRepository[models.Users](modelQuery)
-	err := repo.Add(user, ctx)
+	err := repo.Add(&user, ctx)
 	if err != nil {
 		return utils.StatusFail("Error occurred while adding user")
 	}

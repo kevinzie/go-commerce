@@ -31,6 +31,14 @@ func NewResponse(status int, data interface{}, message string, success bool) mod
 
 // returns http 200 OK
 func StatusOK(data interface{}, paginate ...any) models.BaseResponseModel {
+	if paginate == nil {
+		return models.BaseResponseModel{
+			Status:  fiber.StatusOK,
+			Success: true,
+			Message: "OK",
+			Data:    data,
+		}
+	}
 	return models.BaseResponseModel{
 		Status:    fiber.StatusOK,
 		Success:   true,
