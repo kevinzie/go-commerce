@@ -50,7 +50,7 @@ docker.compose.build:
 	docker-compose build
 
 docker.compose.up:
-	docker-compose up
+	docker-compose up -d
 
 docker.dev: docker.compose.build docker.network docker.compose.up
 
