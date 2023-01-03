@@ -81,4 +81,4 @@ docker.stop.fiber:
 	docker stop gofiber-docker
 
 swag:
-	swag init --parseDependency --parseInternal
+	swag init
