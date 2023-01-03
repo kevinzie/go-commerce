@@ -22,7 +22,7 @@ func NewRepository[T any](db *gorm.DB) *repository[T] {
 }
 
 func (r *repository[T]) Add(entity *T, ctx context.Context) error {
-	tx := r.db.Begin().Debug()
+	tx := r.db.Begin()
 	tx.WithContext(ctx).Create(&entity)
 	if tx.Error != nil {
 		tx.Rollback()
@@ -53,7 +53,7 @@ func (r *repository[T]) Get(params *[]T, ctx context.Context) *T {
 func (r *repository[T]) GetAll(ctx context.Context, c *fiber.Ctx) (interface{}, error) {
 	var entities []T
 
-	err := r.db.Debug().WithContext(ctx).Scopes(Paginate(c)).Find(&entities).Order("created_at desc").Error
+	err := r.db.WithContext(ctx).Scopes(Paginate(c)).Find(&entities).Order("created_at desc").Error
 	////err := r.db.WithContext(ctx).Find(&entities).Order("created_at desc").Error
 	if err != nil {
 		return nil, err
