@@ -13,5 +13,6 @@ func FiberConfig() fiber.Config {
 	return fiber.Config{
 		ReadTimeout:   time.Second * time.Duration(readTimeoutSecondsCount),
 		StrictRouting: false,
+		Network:       "tcp",
 	}
 }
