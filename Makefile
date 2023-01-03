@@ -3,7 +3,7 @@
 APP_NAME = gocommerce
 BUILD_DIR = $(PWD)/build
 MIGRATIONS_FOLDER = $(PWD)/platform/migrations
-DATABASE_URL = postgresql://database-1.cxr5z06jdt9q.ap-southeast-1.rds.amazonaws.com:5432/gocommerce?sslmode=disable
+DATABASE_URL = postgresql://postgres:Mamahku46@database-1.cxr5z06jdt9q.ap-southeast-1.rds.amazonaws.com:5432/gocommerce?sslmode=disable
 #DATABASE_URL = postgres://postgres:postgres@localhost:5432/go_fiber?sslmode=disable
 
 go.run:
