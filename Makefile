@@ -1,13 +1,13 @@
 .PHONY: clean test security build run
 
-APP_NAME = gosaas-microservice-app
+APP_NAME = gocommerce
 BUILD_DIR = $(PWD)/build
 MIGRATIONS_FOLDER = $(PWD)/platform/migrations
-DATABASE_URL = postgres://postgres:postgres@localhost:1026/project_gin?sslmode=disable
+DATABASE_URL = postgresql://database-1.cxr5z06jdt9q.ap-southeast-1.rds.amazonaws.com:5432/gocommerce?sslmode=disable
 #DATABASE_URL = postgres://postgres:postgres@localhost:5432/go_fiber?sslmode=disable
 
 go.run:
-	go run ./cmd/main.go
+	go run ./main.go
 
 clean:
 	rm -rf ./build
@@ -34,7 +34,7 @@ migrate.down:
 migrate.force:
 	migrate -path $(MIGRATIONS_FOLDER) -database "$(DATABASE_URL)" force $(version)
 
-docker.run: docker.network swag docker.fiber
+docker.run: migrate.up swag docker.compose.build docker.compose.up
 
 docker.network:
 	docker network inspect gofiber-network >/dev/null 2>&1 || \
