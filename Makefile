@@ -34,7 +34,7 @@ migrate.down:
 migrate.force:
 	migrate -path $(MIGRATIONS_FOLDER) -database "$(DATABASE_URL)" force $(version)
 
-docker.run: migrate.up swag docker.compose.build docker.compose.up
+docker.run: migrate.up docker.compose.build docker.compose.up
 
 docker.network:
 	docker network inspect gofiber-network >/dev/null 2>&1 || \
@@ -81,4 +81,4 @@ docker.stop.fiber:
 	docker stop gofiber-docker
 
 swag:
-	swag init
+	swag init --parseDependency --parseInternal
